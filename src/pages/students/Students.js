@@ -20,12 +20,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const headCells = [
+  { id: "fullName", label: "Student Name" },
+  { id: "email", label: "Email" },
+  { id: "mobile", label: "Mobile No" },
+  { id: "deptId", label: "Department" },
+];
+
 const Students = () => {
   const classes = useStyles();
   // getting all students data
   const [records, setRecords] = useState(stuService.getAllStudents());
   // table container
-  const { tabContainer } = useTable();
+  const { TabContainer, TabHead, TabPaginate, sortingRecords } = useTable(
+    records,
+    headCells
+  );
   return (
     <>
       <Page
@@ -35,9 +45,10 @@ const Students = () => {
       />
       <Paper className={classes.pageContent}>
         {/* <StudentForm /> */}
-        <tabContainer>
+        <TabContainer>
+          <TabHead />
           <TableBody>
-            {records.map((record) => (
+            {sortingRecords().map((record) => (
               <TableRow key={record.id}>
                 <TableCell>{record.fullName}</TableCell>
                 <TableCell>{record.email}</TableCell>
@@ -46,7 +57,8 @@ const Students = () => {
               </TableRow>
             ))}
           </TableBody>
-        </tabContainer>
+        </TabContainer>
+        <TabPaginate />
       </Paper>
     </>
   );
