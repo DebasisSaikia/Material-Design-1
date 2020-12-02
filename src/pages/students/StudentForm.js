@@ -26,17 +26,25 @@ const initialValues = {
 
 const StudentForm = () => {
   // form validation
-  const validate = () => {
-    let temp = {};
+  const validate = (fieldValues = values) => {
+    let temp = {...errors};
 
-    temp.fullName = values.fullName ? "" : "This field is required.";
-    temp.email = /$^|.+@.+..+/.test(values.email) ? "" : "Email is not valid.";
-    temp.mobile =
-      values.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
-    temp.deptId = values.deptId.length !== 0 ? "" : "This field is required.";
+    if ("fullName" in fieldValues)
+      temp.fullName = fieldValues.fullName ? "" : "This field is required.";
+    if ("email" in fieldValues)
+      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+        ? ""
+        : "Email is not valid.";
+    if ("mobile" in fieldValues)
+      temp.mobile =
+        fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
+    if ("deptId" in fieldValues)
+      temp.deptId =
+        fieldValues.deptId.length != 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
+     if (fieldValues == values)
     return Object.values(temp).every((x) => x === "");
   };
 
@@ -47,7 +55,7 @@ const StudentForm = () => {
     errors,
     setErrors,
     resetForm,
-  } = useForm(initialValues);
+  } = useForm(initialValues, true, validate);
 
   const handleSubmit = (e) => {
     e.preventDefault();
