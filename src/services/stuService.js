@@ -28,5 +28,11 @@ export function generateStudentId() {
 export function getAllStudents() {
   if (localStorage.getItem(KEYS.students) === null)
     localStorage.setItem(KEYS.students, JSON.stringify([]));
-  return JSON.parse(localStorage.getItem(KEYS.students));
+  let students = JSON.parse(localStorage.getItem(KEYS.students));
+  // mapping roles from deptId
+  let roles = getDeptCollection();
+  return students.map((x) => ({
+    ...x,
+    role: roles[x.deptId - 1].title,
+  }));
 }
