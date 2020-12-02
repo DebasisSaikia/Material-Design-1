@@ -7,9 +7,8 @@ import {
 import React from "react";
 import "./App.css";
 import Header from "./components/Header";
-import Page from "./components/Page";
 import SideMenu from "./components/SideMenu";
-import AccessibilityIcon from "@material-ui/icons/Accessibility";
+import Students from "./pages/students/Students";
 
 // theme customization
 const theme = createMuiTheme({
@@ -57,11 +56,8 @@ function App() {
         <SideMenu />
         <div className={classes.appMain}>
           <Header />
-          <Page
-            title="Debasis Saikia"
-            description="Developer"
-            icon={<AccessibilityIcon fontSize="large" />}
-          />
+
+          <Students />
         </div>
         <CssBaseline />
       </ThemeProvider>
