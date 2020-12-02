@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
 export const useForm = (initialValues) => {
   const [values, setValues] = useState(initialValues);
 
+  const [errors, setErrors] = useState({});
+
   //   onchange function
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -22,18 +24,29 @@ export const useForm = (initialValues) => {
       [name]: value,
     });
   };
+
+  // form resetting
+  const resetForm = () => {
+    setValues(initialValues);
+    setErrors({});
+  };
+
   return {
     values,
     setValues,
     handleInput,
+    errors,
+    setErrors,
+    resetForm,
   };
 };
 
 // reusable form
 export const Form = (props) => {
   const classes = useStyles();
+  const { children, ...other } = props;
   return (
-    <form className={classes.root} autoComplete="off">
+    <form className={classes.root} autoComplete="off" {...other}>
       {props.children}
     </form>
   );

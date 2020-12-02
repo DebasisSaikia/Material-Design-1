@@ -25,11 +25,38 @@ const initialValues = {
 };
 
 const StudentForm = () => {
-  const { values, setValues, handleInput } = useForm(initialValues);
+  // form validation
+  const validate = () => {
+    let temp = {};
+
+    temp.fullName = values.fullName ? "" : "This field is required.";
+    temp.email = /$^|.+@.+..+/.test(values.email) ? "" : "Email is not valid.";
+    temp.mobile =
+      values.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
+    temp.deptId = values.deptId.length !== 0 ? "" : "This field is required.";
+    setErrors({
+      ...temp,
+    });
+    return Object.values(temp).every((x) => x === "");
+  };
+
+  const {
+    values,
+    setValues,
+    handleInput,
+    errors,
+    setErrors,
+    resetForm,
+  } = useForm(initialValues);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) window.alert("test!!!!!");
+  };
 
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={6}>
             <Controls.Input
@@ -38,6 +65,7 @@ const StudentForm = () => {
               name="fullName"
               value={values.fullName}
               onChange={handleInput}
+              error={errors.fullName}
             />
             <Controls.Input
               variant="outlined"
@@ -45,6 +73,7 @@ const StudentForm = () => {
               name="email"
               value={values.email}
               onChange={handleInput}
+              error={errors.email}
             />
             <Controls.Input
               variant="outlined"
@@ -52,6 +81,7 @@ const StudentForm = () => {
               name="mobile"
               value={values.mobile}
               onChange={handleInput}
+              error={errors.mobile}
             />
             <Controls.Input
               variant="outlined"
@@ -75,6 +105,7 @@ const StudentForm = () => {
               value={values.deptId}
               onChange={handleInput}
               options={stuService.getDeptCollection()}
+              error={errors.deptId}
             />
             <Controls.DatePicker
               name="dob"
@@ -90,7 +121,11 @@ const StudentForm = () => {
             />
             <div>
               <Controls.Button type="submit" size="large" text="Submit" />
-              <Controls.Button type="submit" color="default" text="Submit" />
+              <Controls.Button
+                onClick={resetForm}
+                color="default"
+                text="Submit"
+              />
             </div>
           </Grid>
         </Grid>

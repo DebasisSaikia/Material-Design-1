@@ -14,7 +14,7 @@ import Students from "./pages/students/Students";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#d35400",
+      main: "#f39c12",
       light: "#e67e22",
     },
     secondary: {
