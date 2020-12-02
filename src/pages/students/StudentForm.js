@@ -27,7 +27,7 @@ const initialValues = {
 const StudentForm = () => {
   // form validation
   const validate = (fieldValues = values) => {
-    let temp = {...errors};
+    let temp = { ...errors };
 
     if ("fullName" in fieldValues)
       temp.fullName = fieldValues.fullName ? "" : "This field is required.";
@@ -40,12 +40,12 @@ const StudentForm = () => {
         fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
     if ("deptId" in fieldValues)
       temp.deptId =
-        fieldValues.deptId.length != 0 ? "" : "This field is required.";
+        fieldValues.deptId.length !== 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
-     if (fieldValues == values)
-    return Object.values(temp).every((x) => x === "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const {
@@ -59,7 +59,10 @@ const StudentForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) window.alert("test!!!!!");
+    if (validate()) {
+      stuService.insertStudent(values);
+      resetForm();
+    }
   };
 
   return (
